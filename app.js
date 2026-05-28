@@ -708,4 +708,62 @@ document.addEventListener('keydown', e => {
   else ki = 0;
 });
 
+// 17. SOPORTE TÁCTIL (TOUCH) — móvil
+// En dispositivos táctiles, desactivar el cursor personalizado y habilitar
+// el efecto hover/tilt en tarjetas y cápsulas al deslizar el dedo.
+(function initTouch() {
+  const isTouch = () => window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+  if (!isTouch()) return;
+
+  // --- Deshabilitar cursor personalizado en touch ---
+  if (cursorEl)   cursorEl.style.display   = 'none';
+  if (followerEl) followerEl.style.display = 'none';
+  document.body.style.cursor = 'auto';
+
+  // --- Touch tilt en .product-card ---
+  document.querySelectorAll('.product-card').forEach(card => {
+    card.addEventListener('touchmove', e => {
+      const t = e.touches[0];
+      const r = card.getBoundingClientRect();
+      const dx = (t.clientX - r.left - r.width  / 2) / (r.width  / 2);
+      const dy = (t.clientY - r.top  - r.height / 2) / (r.height / 2);
+      gsap.to(card, { rotateY: dx * 10, rotateX: -dy * 7, transformPerspective: 700, duration: 0.25, ease: 'power2.out', overwrite: 'auto' });
+    }, { passive: true });
+
+    card.addEventListener('touchend', () => {
+      gsap.to(card, { rotateY: 0, rotateX: 0, duration: 0.6, ease: 'elastic.out(1,.5)' });
+    }, { passive: true });
+  });
+
+  // --- Touch tilt en .capsula ---
+  document.querySelectorAll('.capsula').forEach(cap => {
+    cap.addEventListener('touchmove', e => {
+      const t = e.touches[0];
+      const r = cap.getBoundingClientRect();
+      const dx = (t.clientX - r.left - r.width  / 2) / (r.width  / 2);
+      const dy = (t.clientY - r.top  - r.height / 2) / (r.height / 2);
+      gsap.to(cap, { rotateY: dx * 14, rotateX: -dy * 9, transformPerspective: 700, duration: 0.25, ease: 'power2.out', overwrite: 'auto' });
+    }, { passive: true });
+
+    cap.addEventListener('touchend', () => {
+      gsap.to(cap, { rotateY: 0, rotateX: 0, duration: 0.8, ease: 'elastic.out(1,.5)' });
+    }, { passive: true });
+  });
+
+  // --- Touch tilt en .panini-card --featured ---
+  document.querySelectorAll('.panini-card--featured').forEach(card => {
+    card.addEventListener('touchmove', e => {
+      const t = e.touches[0];
+      const r = card.getBoundingClientRect();
+      const dx = (t.clientX - r.left - r.width  / 2) / (r.width  / 2);
+      const dy = (t.clientY - r.top  - r.height / 2) / (r.height / 2);
+      gsap.to(card, { rotateY: dx * 8, rotateX: -dy * 6, transformPerspective: 900, duration: 0.25, ease: 'power2.out', overwrite: 'auto' });
+    }, { passive: true });
+
+    card.addEventListener('touchend', () => {
+      gsap.to(card, { rotateY: 0, rotateX: 0, duration: 0.7, ease: 'elastic.out(1,.5)' });
+    }, { passive: true });
+  });
+})();
+
 console.log('%c✦ Toque Perfecto — Hecho con amor ✦', 'color:#b79858;font-family:serif;font-size:16px;font-style:italic');
