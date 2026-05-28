@@ -447,9 +447,9 @@ const productData = {
       tag:   'Portaretratos',
       badge: ' 🌟Popular',
       price: '$50.000',
-      desc:  'Portarretratos vaivén vertical en madera natural, ideal para exhibir fotos y recuerdos especiales con un diseño moderno, elegante y lleno de estilo',
+      desc:  'Portaretratos vaivén vertical en madera natural, ideal para exhibir fotos y recuerdos especiales con un diseño moderno, elegante y lleno de estilo',
       src:   '',   
-      wa:    'Hola!%20Quiero%20el%20Portaretratros%20Vaivén%20Vertical%20de%20Toque%20Perfecto%20Gracias.',
+      wa:    'Hola!%20Quiero%20el%20Portarretratros%20Vaivén%20Vertical%20de%20Toque%20Perfecto%20Gracias.',
       emotional: [
         ['Tus recuerdos siempre en movimiento.',''],
         ['Dale vida a tus momentos favoritos.',''],
@@ -462,12 +462,12 @@ const productData = {
      {
       id:    'port-06',
       name:  'Portarretrato libro ',
-      tag:   'Portaretratos',
+      tag:   'Portarretratos',
       badge: 'Lo mas Top',
       price: '$70.000',
       desc:  'Portarretratos tipo libro en madera natural, diseñado para exhibir dos fotos especiales en un formato elegante y creativo que se abre como un recuerdo lleno de historias. ',
       src:   '',   
-      wa:    'Hola!%20Quiero%20el%20Portaretratos%20Libro%20de%20Toque%20Perfecto%20Gracias.',
+      wa:    'Hola!%20Quiero%20el%20Portarretratos%20Libro%20de%20Toque%20Perfecto%20Gracias.',
       emotional: [
         ['Dos recuerdos, un solo lugar especial.',''],
         ['Guarda momentos que conectan corazones.',''],
@@ -539,17 +539,17 @@ const productData = {
   ],
 
 
-  //   QITS
+  //   kITS
   'kits': [
     {
       id:    'kit-01',
       name:  'kit "Deportista"',
       tag:   'kits',
       badge: 'Reciente',
-      price: 'Arma tu kuit',
+      price: 'Arma tu kit',
       desc:  'Giro de Recuerdos en madera natural con base rectangular y diseño giratorio, ideal para exhibir dos fotos o combinar una foto con un mensaje especial. Un detalle elegante y creativo para conservar momentos únicos.',
-      src:   'kuit.jpeg',   
-      wa:    'Hola!%20Quiero%20el%20Qit%20Para%20Siempre%20de%20Toque%20Perfecto%20Gracias.',
+      src:   'quit.jpeg',   
+      wa:    'Hola!%20Quiero%20el%20kit%20Para%20Siempre%20de%20Toque%20Perfecto%20Gracias.',
       emotional: [
         ['Sorpresa al abrir',  '100% porque si'],
         ['Personalización super premium',    'Incluida'],
