@@ -1698,6 +1698,12 @@ span:nth-child(3)
   transition-delay:.52s
 }
 
+/* CURSOR: ocultar en dispositivos táctiles */
+@media (hover: none) and (pointer: coarse) {
+  body { cursor: auto; }
+  .cursor, .cursor-follower { display: none !important; }
+}
+
 /*  RESPONSIVE */
 /* El diseño responsive se implementa utilizando media queries para adaptar el diseño a diferentes tamaños de pantalla. A medida que el ancho de la pantalla disminuye, se realizan ajustes en la disposición de los elementos, el tamaño de las fuentes y la visibilidad de ciertos elementos para garantizar una experiencia de usuario óptima en dispositivos móviles. Por ejemplo, en pantallas más pequeñas, el menú de navegación se oculta y se reemplaza por un botón de menú, las tarjetas de productos se reorganizan en una sola columna, y los tamaños de las fuentes se ajustan para mantener la legibilidad sin comprometer el diseño visual.
  */
