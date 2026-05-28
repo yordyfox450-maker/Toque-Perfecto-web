@@ -540,15 +540,15 @@ const productData = {
 
 
   //   QITS
-  'qits': [
+  'kits': [
     {
-      id:    'qit-01',
-      name:  'Qit "Deportista"',
-      tag:   'Qits',
+      id:    'kit-01',
+      name:  'kit "Deportista"',
+      tag:   'kits',
       badge: 'Reciente',
-      price: 'Arma tu Quit',
+      price: 'Arma tu kuit',
       desc:  'Giro de Recuerdos en madera natural con base rectangular y diseño giratorio, ideal para exhibir dos fotos o combinar una foto con un mensaje especial. Un detalle elegante y creativo para conservar momentos únicos.',
-      src:   'Quit.jpeg',   
+      src:   'kuit.jpeg',   
       wa:    'Hola!%20Quiero%20el%20Qit%20Para%20Siempre%20de%20Toque%20Perfecto%20Gracias.',
       emotional: [
         ['Sorpresa al abrir',  '100% porque si'],
@@ -767,3 +767,4 @@ document.addEventListener('keydown', e => {
 })();
 
 console.log('%c✦ Toque Perfecto — Hecho con amor ✦', 'color:#b79858;font-family:serif;font-size:16px;font-style:italic');
+
