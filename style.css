@@ -1,0 +1,1776 @@
+/* TOQUE PERFECTO  style.css */
+
+/* VARIABLES CSS  */
+:root {
+  /* Paleta de colores */
+  --espresso:    #3d1c0a;
+  --espresso-md: #542916;
+  --eau:         #b79858;
+  --eau-light:   #d4b87a;
+  --terre:       #a13a1e;
+  --bleu:        #88b8ce;
+  --nuage:       #fefaf0;
+  --cream:       #f5ede0;
+  --cream-dark:  #ede5d5;
+  --miel:        #f1c166;
+  --dark:        #1a0f08;
+
+  /* Glassmorphism  */
+  --glass:       rgba(254,250,240,0.72);
+  --glass-border:rgba(183,152,88,0.18);
+  --glass-blur:  blur(20px) saturate(1.5);
+
+  /* Tipografías */
+  --font-display:'Cormorant Garamond', serif;
+  --font-ui:     'Montserrat', sans-serif;
+  --font-script: 'Dancing Script', cursive;
+
+  /* Transiciones */
+  --ease:        cubic-bezier(0.23,1,0.32,1);
+  --ease-io:     cubic-bezier(0.4,0,0.2,1);
+
+  /* Espaciado */
+  --pad:  clamp(4rem,8vw,8rem);
+  --wrap: 1360px;
+  --r:    16px;
+}
+
+ /* Espaciado */ 
+*,*::before,*::after
+{
+  margin:0
+  ;padding:0;
+  box-sizing:border-box
+}
+/* Estilos globales y básicos */
+html
+{
+  scroll-behavior:smooth;
+  overflow-x:hidden
+}
+/* El fondo del sitio utiliza un color base definido por la variable --nuage, que es un tono claro y suave. Para evitar que el fondo se vea plano o monótono, se añade una textura de ruido sutil utilizando un pseudo-elemento ::before con un filtro de ruido fractal generado mediante SVG. Esta textura tiene una opacidad muy baja para crear una sensación de profundidad y riqueza visual sin distraer del contenido principal. Además, se personaliza el cursor para que sea invisible, lo que contribuye a una experiencia más inmersiva y elegante al navegar por el sitio. */
+body
+{
+  background:var(--nuage);
+  color:var(--espresso);
+  font-family:var(--font-ui);
+  overflow-x:hidden;cursor:none;
+  -webkit-font-smoothing:antialiased
+}
+::-webkit-scrollbar
+{
+  width:2px
+}
+::-webkit-scrollbar-track
+{
+  background:var(--nuage)
+}
+::-webkit-scrollbar-thumb
+{
+  background:var(--eau);border-radius:1px
+}
+/* Noise texture */
+body::before{
+  content:'';position:fixed;
+  inset:0;
+  background-image:
+  url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  /* El filtro de ruido se aplica a toda la pantalla con una opacidad muy baja para crear una textura sutil que añade profundidad y riqueza visual al fondo, evitando que se vea plano o monótono. */
+  pointer-events:none;z-index:9990;opacity:0.3
+}
+
+/* CURSOR PERSONALIZADO */
+.cursor {
+  width: 10px;
+  height: 10px;
+  background: var(--espresso-md);
+  border-radius: 50%;
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: multiply;
+  transition: transform 0.1s ease;
+  will-change: transform;
+}
+/* El cursor personalizado se compone de dos elementos: un círculo pequeño (cursor) que sigue la posición exacta del mouse, y un círculo más grande (cursor-follower) que se mueve con un retraso suave para crear un efecto de seguimiento fluido. Cuando el cursor pasa sobre elementos interactivos (como enlaces o botones), ambos círculos aumentan de tamaño y el círculo seguidor se vuelve más transparente, proporcionando una retroalimentación visual clara al usuario sobre la interactividad del elemento. */
+.cursor-follower 
+{ 
+  width: 32px; 
+  height: 32px; 
+  border: 1.5px solid var(--eau);
+  border-radius: 50%; 
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  pointer-events: none; 
+  z-index: 9998; 
+  opacity: 0.7; 
+  transition: transform 0.45s var(--ease-premium); 
+  will-change: transform; 
+}
+.cursor--hover .cursor 
+{ 
+  transform: scale(2.5) !important; 
+}
+.cursor--hover .cursor-follower
+ { 
+  opacity: 0.3; 
+}
+/*  LOADER  e */
+.page-loader
+{
+  position:fixed;
+  inset:0;
+  background:var(--nuage);
+  z-index:10000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  transition:opacity .8s ease,visibility .8s ease
+}
+/* Al cargar la página, el loader se muestra con una animación de pulso en el logo y una línea que se extiende debajo. Después de un breve retraso, el texto del loader aparece con una animación de desvanecimiento hacia arriba. Una vez que la página ha terminado de cargar, el loader se oculta suavemente mediante una transición de opacidad y visibilidad, permitiendo que el contenido principal de la página se muestre sin interrupciones. */
+.page-loader.hidden
+{
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none
+}
+.loader-inner
+{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:1.6rem
+}
+.loader-logo
+{
+  width:160px;
+  height:auto;
+  animation:loaderPulse 1.5s ease-in-out infinite
+}
+.loader-line
+{
+  width:0;
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--eau),transparent);
+  animation:loaderLine 1.8s ease forwards
+}
+.loader-text
+{
+  font-family:var(--font-script);
+  font-size:1.1rem;
+  color:var(--eau);
+  opacity:0;
+  animation:fadeUp .8s ease 1s forwards
+}
+/* Animaciones del loader: el logo tiene un efecto de pulso que hace que su opacidad y escala cambien suavemente, mientras que la línea debajo del logo se anima para extenderse de izquierda a derecha. El texto del loader aparece con una animación de desvanecimiento hacia arriba después de un breve retraso, creando una introducción visual atractiva mientras la página se carga. */
+@keyframes loaderPulse
+{
+  0%,100%{opacity:.55;transform:scale(.97)} 
+  50%{opacity:1;transform:scale(1)}
+}
+@keyframes loaderLine
+{
+  0%{width:0}100%{width:180px}
+}
+/*  CANVAS 3D  */
+#bg-canvas{
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;z-index:0;
+  opacity:0.75
+}
+/*  NAVBAR */
+/* La barra de navegación se posiciona de forma fija en la parte superior de la página, con un fondo semitransparente y un efecto de desenfoque para crear un estilo moderno y elegante. Al hacer scroll, la barra se ajusta reduciendo su padding, aumentando la opacidad del fondo y añadiendo una sombra sutil para mejorar la legibilidad y destacar el contenido del menú. El logo también se reduce ligeramente y se vuelve más transparente para mantener el enfoque en los enlaces de navegación. */
+nav
+{
+  position:fixed;top:0;
+  left:0;
+  right:0;
+  z-index:1000;
+  padding:1rem 3rem;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:rgba(254,250,240,0.04);
+  backdrop-filter:blur(2px) saturate(1.6);
+  -webkit-backdrop-filter:blur(2px) saturate(1.6);
+  border-bottom:1px solid rgba(183,152,88,0.08);
+  transition:all .6s var(--ease)
+}
+/* Estado al hacer scroll */
+nav
+/* Al hacer scroll, la barra se ajusta reduciendo su padding, aumentando la opacidad del fondo y añadiendo una sombra sutil para mejorar la legibilidad y destacar el contenido del menú. El logo también se reduce ligeramente y se vuelve más transparente para mantener el enfoque en los enlaces de navegación. */
+.scrolled
+{
+  padding:.7rem 3rem;
+  background:rgba(254,250,240,0.94);
+  border-bottom-color:rgba(183,152,88,0.16);
+  box-shadow:0 4px 30px rgba(61,28,10,0.07)
+}
+/* Logo */
+.nav-logo
+{
+  z-index:2;
+  transition:all .6s var(--ease)
+}
+.nav-logo 
+img
+/* El logo de la barra de navegación tiene un tamaño inicial definido por su altura, con un ancho automático para mantener sus proporciones. Se le aplica un filtro de sombra para darle profundidad y destacar sobre el fondo. Al hacer scroll, el logo se reduce ligeramente en tamaño y su opacidad disminuye para mantener el enfoque en los enlaces de navegación, creando una transición suave y elegante. */
+{
+  height:38px;
+  width:auto;
+  filter:drop-shadow(0 2px 6px rgba(84,41,22,.1));
+  transition:all .6s var(--ease)
+}
+nav
+.scrolled .nav-logo 
+img
+{
+  height:28px;opacity:.7
+}
+.nav-links
+{
+  display:flex;gap:3rem;
+  list-style:none;
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%)
+}
+/* Links */
+.nav-link{
+  text-decoration:none;
+  font-family:var(--font-ui);
+  font-size:.65rem;
+  font-weight:300;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--espresso);
+  opacity:.6;position:relative;
+  transition:opacity .3s,letter-spacing .4s var(--ease)
+}
+.nav-link::after
+{
+  content:'';
+  position:absolute;
+  bottom:-3px;left:0;
+  right:0;height:1px;
+  background:var(--eau);
+  transform:scaleX(0);
+  transition:transform .4s var(--ease);
+  transform-origin:right
+}
+.nav-link:hover
+{
+  opacity:1;
+  letter-spacing:.28em
+}
+.nav-link:hover::after
+{
+  transform:scaleX(1);
+  transform-origin:left
+}
+/* Toggle móvil */
+/* El botón de menú móvil (nav-toggle) está oculto por defecto y se muestra solo en dispositivos móviles mediante media queries. Está diseñado como un botón sin fondo ni borde, con un cursor personalizado para mantener la estética del sitio. El botón consta de tres líneas horizontales (span) que forman el icono de hamburguesa. Al hacer clic en el botón, se activa la clase "active" que transforma las líneas para crear una animación de transición suave entre el estado cerrado (hamburguesa) y el estado abierto (equis), proporcionando una indicación visual clara al usuario sobre el estado del menú móvil. */
+.nav-toggle
+{
+  display:none;flex-direction:column;gap:5px;
+  background:none;border:none;cursor:none;padding:.4rem;z-index:2
+}
+.nav-toggle 
+span
+{
+  width:24px;
+  height:1.5px;
+  background:var(--espresso);
+  transition:all .4s var(--ease);
+  transform-origin:center;
+  display:block
+}
+.nav-toggle.active
+ span:nth-child(1)
+ {
+  transform:translateY(6.5px) rotate(45deg)
+}
+.nav-toggle.active 
+span:nth-child(2)
+{
+  opacity:0;
+  transform:scaleX(0)
+}
+.nav-toggle.active 
+span:nth-child(3)
+{
+  transform:translateY(-6.5px) rotate(-45deg)
+}
+/* MENÚ MÓVIL  */
+/* El menú móvil se posiciona de forma fija para cubrir toda la pantalla cuando está abierto, con un fondo sólido definido por la variable --nuage. Está diseñado para mostrar los enlaces de navegación en una disposición vertical centrada, con un espacio generoso entre ellos para facilitar la interacción táctil. El menú tiene una transición suave de opacidad para aparecer y desaparecer, y utiliza la propiedad pointer-events para controlar la interactividad, asegurando que solo sea interactivo cuando esté visible. El botón de cierre del menú (mobile-menu-close) se posiciona en la esquina superior derecha y tiene un diseño circular con un fondo semitransparente que cambia al pasar el mouse, proporcionando una forma clara y accesible para cerrar el menú móvil.
+ */
+.mobile-menu{
+  position:fixed;
+  inset:0;
+  background:var(--nuage);
+  z-index:999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .45s ease;
+  flex-direction:column
+}
+.mobile-menu.open
+{
+  opacity:1;
+  pointer-events:all
+}
+.mobile-menu-close{
+  position:absolute;
+  top:1.5rem;
+  right:1.5rem;
+  background:rgba(61,28,10,.06);
+  border:none;
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  font-size:1.4rem;
+  color:var(--espresso);
+  cursor:none;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:background .3s
+}
+.mobile-menu-close:hover
+{
+  background:rgba(61,28,10,.12)
+}
+.mobile-nav-links
+{
+  list-style:none;
+  display:flex;
+  flex-direction:column;
+  gap:2.5rem;text-align:center
+}
+.mobile-nav-links a
+{
+  font-family:var(--font-display);
+  font-size:clamp(2rem,8vw,3rem);
+  font-weight:300;
+  color:var(--espresso);
+  text-decoration:none;
+  letter-spacing:.08em;
+  transition:color .3s,transform .3s;
+  display:block
+}
+.mobile-nav-links a:hover
+{
+  color:var(--eau);
+  transform:translateX(8px)
+}
+.mobile-cta{
+  font-family:var(--font-ui)!important;
+  font-size:.78rem!important;
+  letter-spacing:.2em!important;
+  text-transform:uppercase!important;
+  background:var(--espresso)!important;
+  color:var(--nuage)!important;
+  padding:1rem 2.5rem!important;
+  border-radius:50px!important
+}
+
+/*  HERO  */
+/* La sección hero se diseña para ocupar al menos el 100% de la altura de la ventana, con un fondo que combina un degradado lineal con tonos suaves definidos por las variables --cream, --nuage y --cream-dark. El contenido del hero se centra tanto vertical como horizontalmente utilizando Flexbox, y se posiciona de forma relativa para permitir la inclusión de elementos decorativos como las orbes de luz. Estas orbes son círculos con un efecto de desenfoque que flotan suavemente alrededor del hero, añadiendo dinamismo y profundidad visual sin distraer del mensaje principal. El contenido del hero (hero-content) se posiciona por encima de las orbes para garantizar su legibilidad, y cada elemento dentro del contenido tiene animaciones de aparición secuenciadas para crear una introducción atractiva y envolvente.
+ */
+#hero{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(155deg,#f5ede0 0%,var(--nuage) 50%,#ede5d5 100%);
+  z-index:1;padding-top:80px
+}
+/* Orbs de luz */
+/* Las orbes de luz son elementos decorativos que se posicionan de forma absoluta dentro de la sección hero. Cada orbe es un círculo con un fondo radial degradado que se desvanece hacia los bordes, y se les aplica un filtro de desenfoque para crear un efecto suave y etéreo. Las orbes flotan suavemente utilizando una animación de movimiento que las hace desplazarse en diferentes direcciones y escalas a lo largo del tiempo, añadiendo dinamismo y profundidad visual al fondo del hero sin distraer del contenido principal. Cada orbe tiene un retraso de animación diferente para crear un movimiento más natural y orgánico.
+ */
+.orb
+{
+  position:absolute;border-radius:50%;
+  filter:blur(90px);
+  pointer-events:none;
+  animation:orbFloat 16s ease-in-out infinite
+}
+.orb-1
+{
+  width:600px;
+  height:600px;
+  background:radial-gradient(circle,rgba(241,193,102,.20),transparent 70%);top:-150px;right:-150px;animation-delay:0s}
+.orb-2
+{
+  width:450px;
+  height:450px;
+  background:radial-gradient(circle,rgba(161,58,30,.09),transparent 70%);
+  bottom:-80px;
+  left:-100px;
+  animation-delay:-5s}
+.orb-3
+{
+  width:350px;height:350px;
+  background:radial-gradient(circle,rgba(136,184,206,.16),transparent 70%);
+  top:45%;left:55%;
+  animation-delay:-10s
+}
+@keyframes orbFloat
+{
+  0%,100%{transform:translate(0,0) scale(1)}
+  33%{transform:translate(20px,-20px) scale(1.06)}
+  66%{transform:translate(-15px,15px) scale(.94)}
+}
+/* Contenido */
+/* El contenido del hero se centra tanto vertical como horizontalmente utilizando Flexbox, y se posiciona de forma relativa para permitir la inclusión de elementos decorativos como las orbes de luz. Estas orbes son círculos con un efecto de desenfoque que flotan suavemente alrededor del hero, añadiendo dinamismo y profundidad visual sin distraer del mensaje principal. El contenido del hero (hero-content) se posiciona por encima de las orbes para garantizar su legibilidad, y cada elemento dentro del contenido tiene animaciones de aparición secuenciadas para crear una introducción atractiva y envolvente. */
+.hero-content
+{
+  position:relative;
+  z-index:2;
+  text-align:center;
+  max-width:900px;
+  padding:0 2rem
+}
+.hero-tagline
+{
+  font-family:var(--font-script);
+  font-size:clamp(1rem,2.5vw,1.6rem);
+  color:var(--eau);
+  letter-spacing:.06em;
+  margin-bottom:1.4rem;
+  opacity:0;
+  animation:fadeUp 1s ease .4s forwards
+}
+.hero-headline
+{
+  font-family:var(--font-display);
+  font-size:clamp(2.8rem,7.5vw,6.8rem);
+  font-weight:600;
+  line-height:1.05;
+  color:var(--espresso);
+  margin-bottom:1.1rem;
+  opacity:0;
+  animation:fadeUp 1s ease .7s forwards
+}
+.hero-headline em
+{
+  font-style:italic;
+  color:var(--terre);
+  display:block;
+  font-weight:300
+}
+.hero-sub
+{
+  font-family:var(--font-ui);
+  font-size:clamp(.75rem,1.5vw,.9rem);
+  font-weight:200;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--espresso);
+  opacity:0;animation:fadeUp 1s ease 1s forwards;
+  margin-bottom:2.8rem
+}
+/* Botón CTA Hero */
+/* El botón de llamada a la acción (CTA) en la sección hero se diseña como un enlace con estilo de botón, utilizando una combinación de propiedades CSS para crear un diseño atractivo y moderno. El botón tiene un fondo sólido definido por la variable --espresso, con texto en color claro para garantizar un buen contraste. Se le aplica un padding generoso y un borde redondeado para darle una apariencia suave y amigable. Además, el botón tiene una animación de aparición que lo hace desvanecerse hacia arriba después de un breve retraso, creando una introducción visual atractiva. Al pasar el mouse sobre el botón, se activa un efecto de brillo que se desplaza a través del botón, junto con una ligera elevación y sombra para proporcionar retroalimentación visual clara sobre su interactividad.
+ */
+.hero-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:1.2rem;
+  font-family:var(--font-ui);
+  font-size:.70rem;
+  font-weight:700;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  text-decoration:none;
+  color:var(--nuage);
+  background:var(--espresso);
+  padding:1rem 2.8rem;
+  border-radius:60px;
+  position:relative;
+  overflow:hidden;
+  opacity:0;
+  animation:fadeUp 1s ease 1.3s forwards;
+  transition:transform .4s var(--ease),box-shadow .4s ease;
+  cursor:none
+}
+.hero-btn::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(90deg,transparent,rgba(241,193,102,.3),transparent);
+  transform:translateX(-100%);
+  transition:transform .7s ease;
+  border-radius:inherit
+}
+.hero-btn:hover::before
+{
+  transform:translateX(100%)
+}
+.hero-btn:hover
+{
+  transform:translateY(-3px);
+  box-shadow:0 20px 55px rgba(61,28,10,.26)
+}
+.hero-btn-arrow
+{
+  font-size:1rem;
+  transition:transform .3s var(--ease)
+}
+.hero-btn:hover
+.hero-btn-arrow
+{
+  transform:translateX(5px)
+}
+/* Scroll hint */
+/* El indicador de desplazamiento (scroll hint) se posiciona de forma absoluta en la parte inferior del hero, centrado horizontalmente. Está diseñado como un elemento visual que sugiere a los usuarios que pueden desplazarse hacia abajo para descubrir más contenido. El scroll hint consta de un texto con estilo de etiqueta y una línea animada que simula un movimiento de desplazamiento. El texto tiene una animación de aparición que lo hace desvanecerse hacia arriba después de un breve retraso, mientras que la línea se anima para extenderse y contraerse continuamente, creando una indicación visual clara y atractiva para fomentar la interacción del usuario con el contenido adicional debajo del hero.
+ */
+.hero-scroll-hint
+{
+  position:absolute;
+  bottom: 2px;
+  left:47%;
+  transform:translateX(-50%);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:.5rem;
+  opacity:0;
+  animation:fadeUp 1s ease 2s forwards
+}
+.hero-scroll-hint span
+{
+  font-family:var(--font-ui);
+  font-size:.56rem;
+  letter-spacing:.3em;
+  text-transform:uppercase;
+  color:var(--eau)
+}
+.scroll-line
+{
+  width:1px;
+  height:50px;
+  background:linear-gradient(to bottom,var(--eau),transparent);
+  animation:scrollLine 2.4s ease-in-out infinite
+}
+@keyframes scrollLine
+{
+  0%{transform:scaleY(0);
+    transform-origin:top}50%{transform:scaleY(1);
+      transform-origin:top}
+  51%{transform:scaleY(1);
+    transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+
+/* DIVIDER EDITORIAL */
+/* El divisor editorial se diseña como una sección que separa visualmente el contenido, utilizando Flexbox para alinear sus elementos de forma horizontal con un espacio entre ellos. El divisor consta de dos líneas horizontales (divider-line) que se extienden a ambos lados de un símbolo central (divider-symbol). Las líneas tienen un fondo degradado que se desvanece hacia los bordes, creando una transición suave entre el símbolo y el fondo. El símbolo central utiliza una tipografía de display y un color definido por la variable --eau para destacarse como un elemento decorativo que añade estilo y cohesión visual al diseño del sitio. El divisor también tiene un padding generoso para crear espacio alrededor de sus elementos y mejorar la legibilidad.
+ */
+.divider
+{
+  display:flex;
+  align-items:center;
+  gap:1.5rem;
+  padding:4rem 3rem 0;
+  max-width:var(--wrap);
+  margin:0 auto;
+  position:relative;z-index:1
+}
+.divider-line
+{
+  flex:1;
+  height:1px;
+  background:linear-gradient(to right,transparent,var(--eau),transparent)
+}
+.divider-symbol
+{
+  font-family:var(--font-display);
+  font-size:1rem;color:var(--eau)
+}
+/* SECCIÓN NOSOTROS */
+/* La sección "Nosotros" se diseña utilizando CSS Grid para crear una disposición de dos columnas, con un espacio generoso entre ellas para mejorar la legibilidad y el equilibrio visual. El contenido de la sección se centra dentro de un contenedor con un padding definido por la variable --pad y un ancho máximo para mantener una presentación ordenada en pantallas grandes. La sección incluye una etiqueta de encabezado (nosotros-label) con un estilo distintivo que utiliza una tipografía de interfaz de usuario, un tamaño pequeño y un espaciado entre letras para crear una apariencia elegante y moderna. El título principal (nosotros-title) utiliza una tipografía de display con un tamaño grande y un peso seminegrita para destacar el mensaje principal, mientras que el cuerpo del texto (nosotros-body) utiliza una tipografía de interfaz de usuario con un tamaño más pequeño y un peso ligero para facilitar la lectura y complementar el diseño general de la sección.
+ */
+#nosotros
+{
+  padding:var(--pad) 3rem;
+  max-width:var(--wrap);
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:5rem;
+  align-items:center;
+  position:relative;
+  z-index:1
+}
+.nosotros-label
+{
+  font-family:var(--font-ui);
+  font-size:.60rem;
+  font-weight:400;
+  letter-spacing:.32em;
+  text-transform:uppercase;color:var(--eau);
+  margin-bottom:1.6rem;
+  display:flex;align-items:center;
+  gap:1rem
+}
+.nosotros-label::before
+{
+  content:'';
+  width:36px;
+  height:1px;
+  background:var(--eau)
+}
+.nosotros-title
+{
+  font-family:var(--font-display);
+  font-size:clamp(2.6rem,4.5vw,4.2rem);
+  font-weight:600;
+  line-height:1.08;
+  margin-bottom:2rem;color:var(--espresso)
+}
+.nosotros-title em
+{
+  color:var(--terre);
+  font-style:italic;
+  font-weight:300
+}
+.nosotros-body
+{
+  font-family:var(--font-ui);
+  font-size:.88rem;
+  font-weight:300;
+  line-height:2;
+  color:var(--espresso);
+  opacity:.75
+}
+/* Card derecha glassmorphism premium */
+/* La tarjeta de la derecha en la sección "Nosotros" se diseña utilizando un estilo de glassmorphism premium, que combina un fondo semitransparente con un efecto de desenfoque para crear una apariencia moderna y elegante. La tarjeta tiene un fondo definido por la variable --glass, con un borde sutil utilizando la variable --glass-border para añadir definición. Se le aplica un padding generoso y un borde redondeado para darle una apariencia suave y amigable. Además, la tarjeta tiene una sombra interna para crear profundidad y un efecto de iluminación sutil. Un elemento decorativo adicional es el pseudo-elemento ::before que muestra una comilla grande y estilizada en el fondo de la tarjeta, utilizando una tipografía de display y un color definido por la variable --eau con baja opacidad para no distraer del contenido principal.
+ */
+.nosotros-card
+{
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  padding:2.8rem;
+  border-radius:var(--r);
+  backdrop-filter:var(--glass-blur);
+  -webkit-backdrop-filter:var(--glass-blur);
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 20px 60px rgba(61,28,10,.07),inset 0 1px 0 rgba(255,255,255,.7)
+}
+.nosotros-card::before
+{
+  content:'\201C';
+  font-family:var(--font-display);
+  font-size:11rem;
+  line-height:1;
+  color:var(--eau);
+  opacity:.08;
+  position:absolute;
+  top:-2rem;
+  left:1rem;
+  pointer-events:none
+}
+/* Shine effect */
+/* Para añadir un efecto de brillo (shine effect) a la tarjeta de la derecha en la sección "Nosotros", se utiliza un pseudo-elemento ::after que crea una franja diagonal con un degradado lineal que simula el reflejo de la luz. Esta franja se posiciona de forma absoluta y se anima para desplazarse a través de la tarjeta, creando un efecto dinámico y atractivo que añade un toque de sofisticación al diseño. La animación se define mediante keyframes que hacen que la franja se mueva de izquierda a derecha de manera continua, proporcionando una sensación de movimiento y vida a la tarjeta sin distraer del contenido principal.
+ */
+.nosotros-card::after
+{
+  content:'';
+  position:absolute;
+  top:-50%;left:-60%;
+  width:40%;height:200%;
+  background:linear-gradient(105deg,transparent,rgba(255,255,255,.18),transparent);
+  transform:skewX(-15deg);
+  animation:cardShine 6s ease-in-out infinite
+}
+@keyframes cardShine
+{
+  0%,100%{left:-60%}50%{left:120%}
+}
+.nosotros-quote
+{
+  font-family:var(--font-display);
+  font-size:1.1rem;font-style:italic;
+  font-weight:300;
+  line-height:1.8;
+  color:var(--espresso);
+  opacity:.85;
+  margin-bottom:2.2rem
+}
+.nosotros-stats
+{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1.8rem
+}
+.stat-item
+{
+  text-align:center
+}
+.stat-number
+{
+  font-family:var(--font-display);
+  font-size:2.6rem;
+  font-weight:600;
+  color:var(--espresso);
+  line-height:1
+}
+.stat-label
+{
+  font-family:var(--font-ui);
+  font-size:.58rem;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--eau);
+  margin-top:.3rem
+}
+/* Slogan final sección nosotros */
+/* El slogan final de la sección "Nosotros" se diseña como un elemento que se extiende a lo largo de toda la sección, utilizando CSS Grid para colocarlo en una fila separada. El slogan se compone de dos líneas horizontales (slogan-line) que se extienden a ambos lados de un texto central (slogan-text). Las líneas tienen un fondo degradado que se desvanece hacia los bordes, creando una transición suave entre el texto y el fondo. El texto del slogan utiliza una tipografía de script con un tamaño grande y un color definido por la variable --espresso para destacarse como el mensaje final de la sección, añadiendo estilo y cohesión visual al diseño del sitio.
+ */
+.nosotros-slogan
+{
+  grid-column:1/-1;
+  display:flex;
+  align-items:center;
+  gap:2rem;
+  padding:2.5rem 0 1rem
+}
+.slogan-line
+{
+  flex:1;
+  height:1px;
+  background:linear-gradient(to right,transparent,var(--espresso-md),transparent);opacity:.18
+}
+.slogan-text
+{ 
+  font-family:var(--font-script);
+  font-size:clamp(1.8rem,5vw,3.2rem);
+  color:var(--espresso);
+  white-space:nowrap;
+  letter-spacing:.04em
+}
+/*  SECTION HEADING  */
+/* La sección de encabezado (section-heading) se diseña para centrar su contenido tanto vertical como horizontalmente, utilizando un padding definido por la variable --pad para crear espacio alrededor del texto. El encabezado incluye una etiqueta de sobrelinea (overline) con un estilo distintivo que utiliza una tipografía de interfaz de usuario, un tamaño pequeño y un espaciado entre letras para crear una apariencia elegante y moderna. El título principal (section-title) utiliza una tipografía de interfaz de usuario con un tamaño grande y un peso negrita para destacar el mensaje principal, mientras que el subtítulo (section-subtitle) utiliza una tipografía de display con un tamaño más pequeño y un estilo cursivo para complementar el diseño general de la sección. El uso de colores definidos por las variables --eau y --espresso ayuda a mantener la cohesión visual con el resto del sitio.
+ */
+.section-heading
+{
+  text-align:center;
+  padding:var(--pad) 2rem 1rem;
+  position:relative;
+  z-index:1
+}
+.overline
+{
+  display:block;
+  font-family:var(--font-ui);
+  font-size:.58rem;
+  letter-spacing:.4em;
+  text-transform:uppercase;
+  color:var(--eau);
+  margin-bottom:1.2rem
+}
+.section-title
+{
+  font-family:var(--font-ui);
+  font-size:clamp(3rem,8.5vw,8rem);
+  font-weight:900;
+  line-height:.92;
+  letter-spacing:-.025em;
+  color:var(--espresso);
+  margin-bottom:1rem
+}
+.outline-text
+{
+  -webkit-text-stroke:2px var(--espresso);
+  color:transparent
+}
+.outline-text--light
+{
+  -webkit-text-stroke:2px rgba(254,250,240,.65);color:transparent
+}
+.section-subtitle
+{
+  font-family:var(--font-display);
+  font-size:clamp(.95rem,1.8vw,1.15rem);
+  font-style:italic;font-weight:300;
+  color:var(--eau)
+}
+
+/*  TENDENCIAS (solo tarjeta featured)*/
+/* La sección de tendencias se diseña con un fondo que combina un degradado lineal con tonos suaves definidos por las variables --nuage y #ede5d5. El contenido de la sección se centra dentro de un contenedor con un padding definido por la variable --pad y un ancho máximo para mantener una presentación ordenada en pantallas grandes. La tarjeta destacada (panini-card--featured) se diseña utilizando Flexbox para crear una disposición de dos columnas, con un espacio generoso entre ellas para mejorar la legibilidad y el equilibrio visual. La tarjeta tiene un fondo sólido definido por la variable --espresso, con bordes redondeados y una sombra para darle profundidad. Al pasar el mouse sobre la tarjeta, se activa una animación que eleva ligeramente la tarjeta y aumenta la sombra, proporcionando retroalimentación visual clara sobre su interactividad. La imagen dentro de la tarjeta utiliza object-fit: cover para asegurarse de que cubra completamente su contenedor sin distorsionarse, y se anima para escalar ligeramente al pasar el mouse, creando un efecto dinámico y atractivo.
+ */
+#tendencias
+{
+  padding:0 0 var(--pad);
+  position:relative;
+  z-index:1;
+  background:linear-gradient(180deg,var(--nuage) 0%,#ede5d5 100%)
+}
+.tendencias-inner
+{
+  max-width:var(--wrap);
+  margin:0 auto;
+  padding:0 3rem
+}
+/* Layout centrado para la tarjeta */
+.panini-solo
+{
+  display:flex;
+  justify-content:center;
+  margin-top:3.5rem
+}
+.panini-solo .panini-card--featured
+{
+  max-width:860px;
+  width:100%;
+  display:flex;
+  flex-direction:row;
+  background:var(--espresso);
+  border-radius:20px;
+  overflow:hidden;
+  box-shadow:0 40px 100px rgba(61,28,10,.3),0 0 0 1px rgba(183,152,88,.15);
+  transition:transform .6s var(--ease),box-shadow .6s ease;cursor:none
+}
+.panini-solo .panini-card--featured:hover
+{
+  transform:translateY(-10px);
+  box-shadow:0 60px 140px rgba(61,28,10,.4),0 0 0 1px rgba(183,152,88,.25)
+}
+.panini-solo .panini-img-wrap
+{
+   min-height:350px;  /*tamaño de la imagen con la boxes   */
+  width:60%;
+  flex-shrink:0;
+  position:relative;
+  overflow:hidden
+}
+
+.panini-img
+{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+  transition:transform .8s var(--ease)
+}
+.panini-solo .panini-card--featured:hover
+.panini-img
+{
+  transform:scale(1.16)
+}
+
+.placeholder-icon
+{
+  font-size:3.5rem;
+  opacity:.25
+}
+.placeholder-label
+{
+  font-family:var(--font-ui);
+  font-size:.55rem;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--espresso);
+  opacity:.38
+}
+/* Shine overlay */
+/* El efecto de brillo (shine overlay) se implementa como un elemento adicional dentro de la tarjeta destacada, utilizando una franja diagonal con un degradado lineal que simula el reflejo de la luz. Esta franja se posiciona de forma absoluta sobre la imagen, y se anima para desplazarse a través de ella, creando un efecto dinámico y atractivo que añade un toque de sofisticación al diseño de la tarjeta sin distraer del contenido principal. La animación se define mediante keyframes que hacen que la franja se mueva de izquierda a derecha de manera continua, proporcionando una sensación de movimiento y vida a la tarjeta.
+ */
+.panini-shine{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(130deg,rgba(255,255,255,.08) 0%,transparent 50%,rgba(255,255,255,.04) 100%);
+  pointer-events:none
+}
+.panini-info
+{
+  padding:3rem;
+  flex:1;display:flex;
+  flex-direction:column;
+  justify-content:center
+}
+.panini-badge
+{
+  display:inline-block;
+  font-family:var(--font-ui);
+  font-size:.56rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  background:var(--miel);
+  color:var(--espresso);
+  padding:.28rem .9rem;
+  border-radius:50px;
+  margin-bottom:.9rem
+}
+.panini-number
+{
+  font-family:var(--font-ui);
+  font-size:.58rem;
+  letter-spacing:.25em;
+  color:var(--eau-light);
+  margin-bottom:.6rem;
+  opacity:.65
+}
+.panini-name
+{
+  font-family:var(--font-display);
+  font-size:clamp(1.6rem,3vw,2.2rem);
+  font-weight:600;
+  color:var(--nuage);
+  margin-bottom:.9rem;
+  line-height:1.15
+}
+.panini-desc
+{
+  font-family:var(--font-ui);
+  font-size:.85rem;
+  font-weight:300;
+  line-height:1.85;
+  color:rgba(254,250,240,.68);
+  margin-bottom:2rem;
+  flex:1
+}
+.panini-btn
+{
+  display:inline-flex;
+  align-items:center;
+  gap:.8rem;
+  font-family:var(--font-ui);
+  font-size:.68rem;
+  font-weight:500;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  text-decoration:none;
+  color:var(--espresso);
+  background:var(--miel);
+  padding:.95rem 2rem;
+  border-radius:50px;
+  transition:all .4s var(--ease);
+  align-self:flex-start;
+  cursor:none;
+  position:relative;
+  overflow:hidden
+}
+.panini-btn::before
+{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:var(--nuage);
+  transform:translateX(-100%);
+  transition:transform .5s var(--ease);
+  border-radius:inherit;
+  z-index:0
+}
+.panini-btn:hover::before
+{
+  transform:translateX(0)
+}
+.panini-btn:hover
+{
+  box-shadow:0 10px 35px rgba(241,193,102,.4)
+}
+.panini-btn>*
+{
+  position:relative;z-index:1
+}
+/* CATÁLOGO DE PRODUCTOS */
+/* La sección de catálogo de productos se diseña para presentar los productos en una disposición ordenada y atractiva, utilizando un contenedor con un padding definido por la variable --pad y un ancho máximo para mantener una presentación ordenada en pantallas grandes. La sección incluye pestañas de categorías (category-tabs) que permiten a los usuarios filtrar los productos por categoría, con un diseño de botón que utiliza un fondo semitransparente, bordes redondeados y una transición suave para mejorar la interactividad. Al hacer clic en una pestaña, se activa un estado activo que cambia el estilo del botón para indicar la selección. Los productos se presentan en una cuadrícula (products-grid) que se muestra u oculta según la categoría seleccionada, y cada tarjeta de producto (product-card) utiliza un estilo de glassmorphism premium con efectos de hover para crear una experiencia visual atractiva y moderna.
+ */
+#catalogo
+{
+  padding:2rem 3rem var(--pad);
+  max-width:var(--wrap);
+  margin:0 auto;
+  position:relative;
+  z-index:1
+}
+
+/*  Tabs de categorías  */
+/* Las pestañas de categorías se diseñan como botones con un fondo semitransparente definido por la variable --glass, bordes redondeados y una transición suave para mejorar la interactividad. Cada pestaña incluye un ícono y un texto, con estilos de tipografía que utilizan la variable --font-ui para mantener la cohesión visual. Al hacer clic en una pestaña, se activa un estado activo que cambia el estilo del botón para indicar la selección, utilizando un fondo sólido definido por la variable --espresso y un cambio de color en el texto. Las pestañas se disponen en una fila flexible con espacio entre ellas, y se adaptan a diferentes tamaños de pantalla utilizando flex-wrap para permitir que las pestañas se ajusten a múltiples líneas si es necesario.
+ */
+.category-tabs
+{
+  display:flex;
+  gap:.9rem;
+  margin-bottom:3.5rem;
+  justify-content:center;
+  flex-wrap:wrap
+}
+.tab-btn
+{
+  display:flex;
+  align-items:center;gap:.65rem;
+  font-family:var(--font-ui);
+  font-size:.65rem;
+  font-weight:400;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  padding:.85rem 2rem;
+  background:var(--glass);
+  backdrop-filter:blur(14px);
+  border:1.5px solid var(--glass-border);
+  border-radius:60px;
+  color:var(--espresso);
+  opacity:.5;
+  cursor:none;
+  transition:all .4s var(--ease);
+  box-shadow:0 4px 16px rgba(61,28,10,.04),inset 0 1px 0 rgba(255,255,255,.6)
+}
+.tab-btn .tab-icon
+{
+  font-size:.95rem
+}
+.tab-btn:hover
+{
+  opacity:.8;
+  border-color:rgba(183,152,88,.38);
+  transform:translateY(-2px);
+  box-shadow:0 10px 28px rgba(61,28,10,.1)
+}
+.tab-btn.active
+{
+  opacity:1;
+  background:var(--espresso);
+  color:var(--nuage);
+  border-color:var(--espresso);
+  box-shadow:0 12px 35px rgba(61,28,10,.24),0 0 0 1px var(--espresso)
+}
+
+/* Grids de productos */
+/* Los grids de productos se diseñan para mostrar los productos en una disposición ordenada y atractiva, utilizando CSS Grid para crear una cuadrícula que se adapta a diferentes tamaños de pantalla. Cada grid se muestra u oculta según la categoría seleccionada, utilizando la clase "active" para controlar su visibilidad. La cuadrícula utiliza un diseño de columnas automáticas con un tamaño mínimo de 275px para cada tarjeta de producto, y un espacio generoso entre las tarjetas para mejorar la legibilidad y el equilibrio visual. Al mostrar un grid, se activa una animación de aparición que hace que las tarjetas de producto se deslicen hacia arriba y se desvanezcan, creando una introducción visual atractiva y dinámica para los productos.
+ */
+.products-grid
+{
+  display:none;
+  grid-template-columns:repeat(auto-fill,minmax(275px,1fr));
+  gap:1.8rem
+}
+.products-grid.active
+{
+  display:grid
+}
+
+/* Tarjeta de producto — premium glass card */
+/* Cada tarjeta de producto se diseña utilizando un estilo de glassmorphism premium, que combina un fondo semitransparente con un efecto de desenfoque para crear una apariencia moderna y elegante. La tarjeta tiene un fondo definido por la variable --glass, con un borde sutil utilizando la variable --glass-border para añadir definición. Se le aplica un padding generoso y un borde redondeado para darle una apariencia suave y amigable. Además, la tarjeta tiene una sombra interna para crear profundidad y un efecto de iluminación sutil. Al pasar el mouse sobre la tarjeta, se activa una animación que eleva ligeramente la tarjeta, aumenta la sombra y cambia el color del borde para proporcionar retroalimentación visual clara sobre su interactividad.
+ */
+.product-card
+{
+  position:relative;
+  overflow:hidden;
+  background:var(--glass);
+  backdrop-filter:var(--glass-blur);
+  -webkit-backdrop-filter:var(--glass-blur);
+  border:1px solid var(--glass-border);
+  border-radius:var(--r);
+  cursor:none;
+  box-shadow:0 8px 32px rgba(61,28,10,.07),inset 0 1px 0 rgba(255,255,255,.65);
+  transition:transform .5s var(--ease),box-shadow .5s ease,border-color .4s;
+  transform-style:preserve-3d;
+  will-change:transform
+}
+.product-card:hover
+{
+  transform:translateY(-10px) scale(1.015);
+  box-shadow:0 35px 70px rgba(61,28,10,.17),0 0 0 1px rgba(183,152,88,.3),inset 0 1px 0 rgba(255,255,255,.8);
+  border-color:rgba(183,152,88,.32)
+}
+
+/* Top shine on card */
+/* Para añadir un efecto de brillo en la parte superior de la tarjeta de producto, se utiliza un pseudo-elemento ::after que crea una franja horizontal con un degradado lineal que simula el reflejo de la luz. Esta franja se posiciona de forma absoluta en la parte superior de la tarjeta, y tiene una opacidad baja para no distraer del contenido principal. El uso de un degradado que va desde un color blanco semitransparente a transparente ayuda a crear un efecto sutil y elegante que añade profundidad y dinamismo a la tarjeta sin ser intrusivo.
+ */
+.product-card::after
+{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:40%;
+  background:linear-gradient(180deg,rgba(255,255,255,.12),transparent);
+  pointer-events:none;
+  border-radius:var(--r) var(--r) 0 0;
+  z-index:1
+}
+
+.product-img-wrap
+{
+  position:relative;
+  aspect-ratio:4/3;
+  overflow:hidden
+}
+.product-img
+{
+  width:100%;height:100%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+  transition:transform .7s var(--ease)
+}
+.product-card:hover
+.product-img
+{
+  transform:scale(1.09)
+}
+.product-mock
+{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:.8rem
+}
+.product-mock-icon
+{
+  font-size:3.5rem;
+  opacity:.22
+}
+.product-mock-label
+{
+  font-family:var(--font-ui);
+  font-size:.55rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--espresso);
+  opacity:.28
+}
+.product-img-overlay
+{
+  position:absolute;
+  inset:0;
+  background:rgba(61,28,10,.52);
+  backdrop-filter:blur(5px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  transition:opacity .4s ease
+}
+.product-card:hover 
+.product-img-overlay
+{
+  opacity:1
+}
+.product-overlay-btn
+{
+  font-family:var(--font-ui);
+  font-size:.65rem;
+  font-weight:500;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--nuage);
+  background:rgba(254,250,240,.1);
+  backdrop-filter:blur(8px);
+  border:1px solid rgba(254,250,240,.38);
+  padding:.75rem 1.8rem;
+  border-radius:50px;
+  cursor:none;
+  transition:all .3s
+}
+.product-overlay-btn:hover
+{
+  background:var(--nuage);
+  color:var(--espresso)
+}
+.product-badge
+{
+  position:absolute;
+  top:.9rem;
+  right:.9rem;
+  background:var(--miel);
+  font-family:var(--font-ui);
+  font-size:.52rem;
+  font-weight:700;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  padding:.28rem .8rem;
+  color:var(--espresso);
+  border-radius:50px;z-index:2
+}
+.product-info
+{
+  padding:1.5rem
+}
+.product-category-tag
+{
+  font-family:var(--font-ui);
+  font-size:.52rem;
+  letter-spacing:.28em;
+  text-transform:uppercase;
+  color:var(--eau);
+  margin-bottom:.45rem
+}
+.product-name
+{
+  font-family:var(--font-display);
+  font-size:1.2rem;
+  font-weight:600;
+  color:var(--espresso);
+  margin-bottom:.35rem;
+  line-height:1.2
+}
+.product-desc
+{
+  font-family:var(--font-ui);
+  font-size:.78rem;
+  font-weight:300;
+  line-height:1.75;
+  color:var(--espresso);
+  opacity:.58;
+  margin-bottom:1rem
+}
+.product-footer
+{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding-top:.9rem;
+  border-top:1px solid rgba(183,152,88,.13)
+}
+.product-price
+{
+  font-family:var(--font-display);
+  font-size:1.35rem;
+  font-weight:600;
+  color:var(--espresso)
+}
+.product-price sup
+{
+  font-family:var(--font-ui);
+  font-size:.6rem;
+  font-weight:400;
+  vertical-align:super
+}
+.product-add
+{
+  width:36px;
+  height:36px;
+  background:var(--espresso);
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:none;
+  color:var(--nuage);
+  font-size:1.2rem;
+  cursor:none;
+  transition:transform .4s var(--ease),background .3s,box-shadow .3s
+}
+.product-add:hover
+{
+  background:var(--terre);
+  transform:rotate(90deg) scale(1.1);
+  box-shadow:0 8px 20px rgba(161,58,30,.35)
+}
+
+/*  MODAL DE PRODUCTO */
+/* El modal de producto se diseña como una superposición que cubre toda la pantalla, utilizando un fondo semitransparente con un efecto de desenfoque para crear una apariencia moderna y elegante. El modal se centra en la pantalla utilizando Flexbox, y su contenido se presenta dentro de una caja con un fondo sólido definido por la variable --nuage, bordes redondeados y una sombra para darle profundidad. El modal incluye un botón de cierre en la esquina superior derecha, que utiliza un diseño circular con un fondo semitransparente y una transición suave para mejorar la interactividad. Al pasar el mouse sobre el botón de cierre, se activa una animación que cambia su opacidad y fondo para proporcionar retroalimentación visual clara sobre su interactividad. El contenido del modal se organiza en diferentes secciones, incluyendo una imagen destacada, información del producto, detalles nutricionales y un botón de acción, cada uno con estilos de tipografía y diseño que utilizan las variables definidas para mantener la cohesión visual con el resto del sitio.
+ */
+.modal-overlay
+{
+  position:fixed;inset:0;
+  z-index:2000;
+  background:rgba(26,15,8,.9);
+  backdrop-filter:blur(30px);
+  -webkit-backdrop-filter:blur(30px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;pointer-events:none;
+  transition:opacity .45s ease
+}
+.modal-overlay.open
+{
+  opacity:1;
+  pointer-events:all
+}
+.modal-box
+{
+  background:var(--nuage);
+  max-width:640px;
+  width:92%;
+  max-height:88vh;
+  overflow-y:auto;
+  border-radius:20px;
+  position:relative;
+  box-shadow:0 40px 120px rgba(0,0,0,.4),0 0 0 1px rgba(183,152,88,.12)
+}
+.modal-close
+{
+  position:absolute;
+  top:1rem;
+  right:1rem;
+  background:rgba(61,28,10,.06);
+  border:none;
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  font-size:1.2rem;
+  color:var(--espresso);
+  cursor:none;opacity:.55;
+  transition:opacity .3s,background .3s;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:2
+}
+.modal-close:hover
+{
+  opacity:1;
+  background:rgba(61,28,10,.1)
+}
+.modal-img-wrap
+{
+  position:relative;
+  aspect-ratio:16/9;
+  overflow:hidden;
+  border-radius:20px 20px 0 0
+}
+.modal-img
+{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block
+}
+.modal-img-placeholder
+{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:.6rem;
+  background:linear-gradient(135deg,var(--cream-dark),#d0bfa8)
+}
+.modal-img-icon
+{
+  font-size:4.5rem;
+  opacity:.22
+}
+.modal-content-inner
+{
+  padding:2.2rem
+}
+.modal-product-tag
+{
+  font-family:var(--font-ui);
+  font-size:.56rem;
+  letter-spacing:.32em;
+  text-transform:uppercase;
+  color:var(--eau);
+  margin-bottom:.7rem
+}
+.modal-product-name
+{
+  font-family:var(--font-display);
+  font-size:clamp(1.7rem,4vw,2.3rem);
+  font-weight:600;color:var(--espresso);
+  margin-bottom:.9rem;
+  line-height:1.15
+}
+.modal-product-desc
+{
+  font-family:var(--font-ui);
+  font-size:.86rem;
+  font-weight:300;
+  line-height:1.9;
+  color:var(--espresso);
+  opacity:.7;
+  margin-bottom:1.3rem
+}
+.modal-nutrition
+{
+  border:1px solid rgba(61,28,10,.13);
+  padding:1.1rem;
+  border-radius:8px;
+  margin:1.3rem 0
+}
+.modal-nutrition-title
+{
+  font-family:var(--font-ui);
+  font-size:.95rem;
+  font-weight:900;
+  border-bottom:6px solid var(--espresso);
+  padding-bottom:.3rem;
+  margin-bottom:.5rem;
+  color:var(--espresso)
+}
+.nutrition-row
+{
+  display:flex;
+  justify-content:space-between;
+  font-family:var(--font-ui);
+  font-size:.73rem;
+  font-weight:300;
+  color:var(--espresso);
+  padding:.2rem 0;
+  border-bottom:1px solid rgba(61,28,10,.06)
+}
+.modal-price
+{
+  font-family:var(--font-display);
+  font-size:2.6rem;
+  font-weight:600;
+  color:var(--espresso);
+  margin-bottom:1.4rem
+}
+.modal-btn
+{
+  display:block;
+  width:100%;
+  font-family:var(--font-ui);
+  font-size:.70rem;
+  font-weight:600;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  padding:1.1rem;
+  background:var(--espresso);
+  color:var(--nuage);
+  border:none;
+  border-radius:60px;
+  text-align:center;
+  text-decoration:none;
+  cursor:none;
+  transition:background .3s,transform .3s,box-shadow .3s;
+  position:relative;overflow:hidden
+}
+.modal-btn::after
+{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(241,193,102,.28),transparent);
+  transform:translateX(-100%);
+  transition:transform .7s ease;
+  border-radius:inherit
+}
+.modal-btn:hover::after
+{
+  transform:translateX(100%)
+}
+.modal-btn:hover
+{
+  background:var(--terre);
+  transform:translateY(-2px);
+  box-shadow:0 14px 40px rgba(161,58,30,.32)
+}
+
+/*  SECCIÓN CONTACTO FINAL */
+/* La sección de contacto se diseña con un fondo que combina un degradado lineal con tonos oscuros definidos por las variables --espresso y --dark, creando una atmósfera acogedora y sofisticada. El contenido de la sección se centra dentro de un contenedor con un padding definido por la variable --pad y un ancho máximo para mantener una presentación ordenada en pantallas grandes. Se añade un efecto de brillo sutil utilizando elementos de fondo adicionales con degradados radiales que simulan reflejos de luz, añadiendo profundidad y dinamismo al diseño sin distraer del contenido principal. La sección incluye tarjetas de contacto (capsulas) diseñadas como botones con fondos coloridos, bordes redondeados y animaciones de flotación para mejorar la interactividad y atraer la atención del usuario hacia las opciones de contacto disponibles.
+ */
+#contacto
+{
+  background:linear-gradient(140deg,var(--espresso) 0%,var(--dark) 55%,#0d0603 100%);
+  padding:var(--pad) 3rem;
+  position:relative;
+  overflow:hidden;
+  z-index:1
+}
+.contacto-bg-glow
+{
+  position:absolute;
+  inset:0;pointer-events:none;
+  background:radial-gradient(ellipse at 25% 40%,rgba(241,193,102,.10),transparent 55%),
+              radial-gradient(ellipse at 75% 60%,rgba(136,184,206,.07),transparent 55%)
+}
+.contacto-inner
+{
+  max-width:var(--wrap);
+  margin:0 auto;position:relative;
+  z-index:2
+}
+#contacto .overline
+{
+  color:var(--miel)
+}
+#contacto .section-title
+{
+  color:var(--nuage)
+}
+.contacto-sub
+{
+  color:rgba(254,250,240,.48)
+}
+.capsulas-grid
+{
+  display:flex;gap:1.4rem;
+  justify-content:center;
+  flex-wrap:wrap;margin:4.5rem 0
+}
+.capsula
+{
+  display:flex;align-items:center;gap:1.4rem;
+  padding:1.4rem 2.4rem;
+  border-radius:60px;
+  text-decoration:none;
+  position:relative;
+  overflow:hidden;
+  cursor:none;
+  min-width:272px;
+  transition:transform .5s var(--ease),box-shadow .5s ease;
+  animation:capsuleFloat 5s ease-in-out infinite
+}
+.capsula:nth-child(2)
+{
+  animation-delay:-1.7s
+}
+.capsula:nth-child(3)
+{
+  animation-delay:-3.3s
+}
+@keyframes capsuleFloat
+{
+  0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}
+}
+.capsula:hover
+{
+  transform:translateY(-14px) scale(1.03)!important;
+  animation-play-state:paused
+}
+.capsula-glow
+{
+  position:absolute;
+  inset:-50%;
+  border-radius:50%;
+  opacity:0;
+  transition:opacity .5s ease;
+  pointer-events:none
+}
+.capsula:hover .capsula-glow
+{
+  opacity:.38
+}
+.capsula--wa
+{
+  background:linear-gradient(135deg,#25D366,#128C7E);
+  color:#fff;
+  box-shadow:0 18px 45px rgba(37,211,102,.18)
+}
+.capsula--wa:hover
+{
+  box-shadow:0 28px 65px rgba(37,211,102,.38)
+}
+.capsula--wa .capsula-glow
+{
+  background:radial-gradient(circle,rgba(37,211,102,.55),transparent)
+}
+.capsula--ig
+{
+  background:linear-gradient(135deg,#E1306C,#833AB4,#C13584);color:#fff;box-shadow:0 18px 45px rgba(225,48,108,.18)
+}
+.capsula--ig:hover
+{
+  box-shadow:0 28px 65px rgba(225,48,108,.38)
+}
+.capsula--ig .capsula-glow
+{
+  background:radial-gradient(circle,rgba(225,48,108,.55),transparent)
+}
+.capsula--mail
+{
+  background:rgba(254,250,240,.09);
+  backdrop-filter:blur(20px);
+  border:1.5px solid rgba(183,152,88,.32);
+  color:var(--nuage);
+  box-shadow:0 18px 45px rgba(0,0,0,.18)
+}
+.capsula--mail:hover
+{
+  border-color:var(--eau);
+  box-shadow:0 28px 65px rgba(183,152,88,.22)
+}
+.capsula--mail .capsula-glow
+{
+  background:radial-gradient(circle,rgba(183,152,88,.48),transparent)
+}
+.capsula-icon
+{
+  width:50px;
+  height:50px;
+  background:rgba(255,255,255,.16);
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+  transition:transform .4s var(--ease)
+}
+.capsula:hover .capsula-icon
+{
+  transform:scale(1.12) rotate(-5deg)
+}
+.capsula-content
+{
+  display:flex;
+  flex-direction:column;
+  gap:.22rem;
+  flex:1
+}
+.capsula-title
+{
+  font-family:var(--font-ui);
+  font-size:.92rem;
+  font-weight:600;
+  letter-spacing:.05em
+}
+.capsula-sub
+{
+  font-family:var(--font-ui);
+  font-size:.68rem;
+  font-weight:300;
+  opacity:.72
+}
+.capsula-arrow
+{
+  font-size:1.1rem;
+  opacity:.55;
+  transition:transform .4s var(--ease),opacity .3s
+}
+.capsula:hover .capsula-arrow
+{
+  transform:translate(4px,-4px);
+  opacity:1
+}
+.contacto-footer
+{
+  text-align:center;
+  padding-top:3rem;
+  border-top:1px solid rgba(183,152,88,.1)
+}
+.footer-love-script
+{
+  font-family:var(--font-script);
+  font-size:clamp(2.2rem,5.5vw,3.8rem);
+  color:var(--eau);
+  margin-bottom:.8rem
+}
+.footer-location
+{
+  font-family:var(--font-ui);
+  font-size:.65rem;
+  font-weight:200;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:rgba(254,250,240,.25)
+}
+
+/*  REVEAL ANIMATIONS  */
+/* Las animaciones de revelado se implementan utilizando una clase "reveal" que se aplica a los elementos que se desea animar. Inicialmente, estos elementos tienen una opacidad de 0 y están desplazados hacia abajo utilizando transform: translateY(45px). Al agregar la clase "visible" a estos elementos, se activa una transición que hace que la opacidad aumente a 1 y el desplazamiento se reduzca a 0, creando un efecto de deslizamiento hacia arriba y aparición gradual. Se pueden aplicar diferentes retrasos a las animaciones utilizando clases adicionales como "reveal-delay-1", "reveal-delay-2", etc., que añaden un retraso específico a la transición para crear un efecto de cascada cuando múltiples elementos se revelan en secuencia.
+ */
+.reveal
+{
+  opacity:0;transform:translateY(45px);
+  transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.reveal.visible
+{
+  opacity:1;
+  transform:translateY(0)
+}
+.reveal-delay-1
+{
+  transition-delay:.1s
+}
+.reveal-delay-2
+{
+  transition-delay:.22s
+}
+.reveal-delay-3
+{
+  transition-delay:.36s
+}
+.reveal-delay-4
+{
+  transition-delay:.52s
+}
+
+/*  RESPONSIVE */
+/* El diseño responsive se implementa utilizando media queries para adaptar el diseño a diferentes tamaños de pantalla. A medida que el ancho de la pantalla disminuye, se realizan ajustes en la disposición de los elementos, el tamaño de las fuentes y la visibilidad de ciertos elementos para garantizar una experiencia de usuario óptima en dispositivos móviles. Por ejemplo, en pantallas más pequeñas, el menú de navegación se oculta y se reemplaza por un botón de menú, las tarjetas de productos se reorganizan en una sola columna, y los tamaños de las fuentes se ajustan para mantener la legibilidad sin comprometer el diseño visual.
+ */
+@media(max-width:1100px)
+{
+  #nosotros
+  {grid-template-columns:1fr;gap:3.5rem}
+  .nosotros-slogan
+  {grid-column:1/-1}
+  .panini-solo 
+  .panini-card--featured
+  {flex-direction:column}
+  .panini-solo .panini-img-wrap
+  {width:100%;aspect-ratio:16/9}
+}
+@media(max-width:900px)
+{
+  nav
+  {padding:.9rem 1.8rem}
+  nav.scrolled
+  {padding:.7rem 1.8rem}
+  .nav-links
+  {display:none}
+  .nav-toggle
+  {display:flex}
+  #hero
+  {padding-top:70px}
+  .hero-headline
+  {font-size:clamp(2.4rem,11vw,4.2rem)}
+  #nosotros
+  {padding:3.5rem 1.8rem}
+  .tendencias-inner
+  {padding:0 1.8rem}
+  #catalogo
+  {padding:2rem 1.8rem 5rem}
+  #contacto
+  {padding:4rem 1.8rem}
+  .divider
+  {padding:3rem 1.8rem 0}
+  .capsulas-grid
+  {flex-direction:column;align-items:center}
+  .capsula
+  {min-width:unset;width:100%;max-width:370px}
+  .category-tabs
+  {gap:.7rem}
+  .section-title
+  {font-size:clamp(2.5rem,12vw,5rem)}
+  .slogan-text
+  {font-size:clamp(1.5rem,7vw,2.4rem)}
+}
+@media(max-width:600px)
+{
+  .hero-btn
+  {padding:.9rem 2rem;font-size:.63rem}
+  .products-grid
+  {grid-template-columns:1fr}
+  .category-tabs
+  {flex-direction:column;align-items:center}
+  .tab-btn
+  {width:100%;max-width:300px;justify-content:center}
+  .modal-box
+  {max-height:94vh;border-radius:16px 16px 0 0}
+  .nosotros-stats
+  {grid-template-columns:1fr 1fr;gap:1.2rem}
+  .panini-info
+  {padding:2rem}
+  #contacto .section-title
+  {font-size:clamp(2rem,11vw,3.5rem)}
+}
+@media(max-width:400px)
+{
+  .hero-headline
+  {font-size:clamp(2.1rem,12vw,3rem)}
+  .stat-number
+  {font-size:2rem}
+}
