@@ -548,7 +548,7 @@ const productData = {
       badge: 'Reciente',
       price: 'Arma tu kit',
       desc:  'Giro de Recuerdos en madera natural con base rectangular y diseño giratorio, ideal para exhibir dos fotos o combinar una foto con un mensaje especial. Un detalle elegante y creativo para conservar momentos únicos.',
-      src:   'giro.jpeg',   
+      src:   'salir.jpeg',   
       wa:    'Hola!%20Quiero%20el%20kit%20Para%20Siempre%20de%20Toque%20Perfecto%20Gracias.',
       emotional: [
         ['Sorpresa al abrir',  '100% porque si'],
