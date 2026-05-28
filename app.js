@@ -767,4 +767,3 @@ document.addEventListener('keydown', e => {
 })();
 
 console.log('%c✦ Toque Perfecto — Hecho con amor ✦', 'color:#b79858;font-family:serif;font-size:16px;font-style:italic');
-
